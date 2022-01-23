@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux';
-import {ADD_MOVIES} from '../actions'
+import {ADD_MOVIES , ADD_FAVOURITES} from '../actions'
 
 const initialMoviesState  = {
     list: [],
@@ -8,12 +8,20 @@ const initialMoviesState  = {
 
 export default function movie (state = initialMoviesState, action) {
     
-    if(action.type === ADD_MOVIES){
-        return {
-            ...state,
-            list: bindActionCreators.movies
-        }
+    switch(action.type){
+        case ADD_MOVIES:
+            return {
+                ...state,
+                list: action.movies
+            }
+        case ADD_FAVOURITES:
+            return {
+                ...state,
+                favourites: [action.movie, ...state.favourites ]
+            }
+        default:
+            return state 
     }
-    return state;
+
 }
 
