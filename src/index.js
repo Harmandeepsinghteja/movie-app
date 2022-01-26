@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 
 import './index.css';
@@ -16,11 +17,24 @@ import rootReducer from './reducers';
 //   }
 // }
 const logger = ({dispatch, getState}) => (next) => (action) => {
-      console.log("ACTION_TYPE: ",action.type );
-      next(action);
+      
+  if(typeof action !== 'function'){
+  console.log("ACTION_TYPE: ",action.type );
+  }
+  next(action);
+
 };
 
-const store = createStore(rootReducer, applyMiddleware(logger));
+
+// const thunk =({dispatch, getState}) => (next) => (action) => {
+
+//   if(typeof action === 'function'){
+//     action(dispatch);
+//     return;
+//   }
+//   next(action);
+// };
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 // store.dispatch({
 //   type: 'ADD_MOVIES',
